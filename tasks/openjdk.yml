@@ -1,0 +1,17 @@
+---
+- name: Add OpenJDK PPA
+  apt_repository: repo='ppa:openjdk-r/ppa'
+  when: ansible_distribution_version | version_compare('16.04', '<') and java_major_version | version_compare('8', '>=')
+
+- name: Install OpenJDK
+  apt: pkg=openjdk-{{ java_major_version }}-jdk={{ java_version }}
+       state=present
+  notify: Install SSL certificates
+
+- name: Determine if 64bit architecture
+  set_fact:
+    ansible_architecture: amd64
+  when: ansible_architecture == "x86_64"
+
+- name: Set OpenJDK as the default
+  alternatives: name=java path="/usr/lib/jvm/java-{{ java_major_version }}-openjdk-{{ ansible_architecture }}/jre/bin/java"

@@ -1,0 +1,6 @@
+---
+java_version: "8u141*"
+java_major_version: "8"
+java_flavor: "openjdk"
+java_oracle_accept_license_agreement: False
+
